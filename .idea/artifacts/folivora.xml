@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="folivora">
+    <output-path>$PROJECT_DIR$/out/artifacts/folivora</output-path>
+    <root id="archive" name="folivora.jar">
+      <element id="module-output" name="folivora" />
+    </root>
+  </artifact>
+</component>

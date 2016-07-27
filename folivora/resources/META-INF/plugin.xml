@@ -1,0 +1,35 @@
+<idea-plugin version="2">
+    <id>com.ivoryartwork.plugin.folivora</id>
+    <name>folivora</name>
+    <version>1.0</version>
+    <vendor email="1135270601@qq.com" url="http://www.ivoryartwork.com">ivoryartwork</vendor>
+
+    <description><![CDATA[
+      Help you generate entity classes and corresponding Mybatis Mapper xml files base on create sql script.<br>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="141.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action id="folivora" class="com.ivoryartwork.plugin.folivora.MainAction" text="folivora">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
