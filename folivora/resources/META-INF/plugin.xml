@@ -1,18 +1,12 @@
-<idea-plugin version="2">
+<idea-plugin>
     <id>com.ivoryartwork.plugin.folivora</id>
     <name>folivora</name>
-    <version>1.0</version>
+    <version>1.4</version>
     <vendor email="1135270601@qq.com" url="http://www.ivoryartwork.com">ivoryartwork</vendor>
 
     <description><![CDATA[
       Help you generate entity classes and corresponding Mybatis Mapper xml files base on create sql script.<br>
     ]]></description>
-
-    <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
-    ]]>
-    </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="141.0"/>

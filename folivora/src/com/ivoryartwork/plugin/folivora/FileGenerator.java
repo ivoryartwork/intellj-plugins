@@ -24,17 +24,15 @@ public class FileGenerator {
             "\n" +
             "CLASS_CONTENT\n" +
             "}";
-    String modelClassContentFields = "    /**\n" +
-            "     * COLUMN_DESCRIPTION\n" +
-            "     */\n" +
-            "    private COLUMN_TYPE COLUMN_NAME;\n\n";
+    String modelClassContentFields = "    private COLUMN_TYPE COLUMN_NAME;\n";
 
     String modelClassContentGetterSetter = "    public COLUMN_TYPE getCOLUMN_U() {\n" +
             "        return COLUMN_NAME;\n" +
             "    }\n" +
             "\n" +
-            "    public void setCOLUMN_U(COLUMN_TYPE COLUMN_NAME) {\n" +
+            "    public CLASS_NAME setCOLUMN_U(COLUMN_TYPE COLUMN_NAME) {\n" +
             "        this.COLUMN_NAME = COLUMN_NAME;\n" +
+            "        return this;\n" +
             "    }\n\n";
 
     String mapperContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
@@ -62,7 +60,7 @@ public class FileGenerator {
         String classDes = "数据库表" + table.getName() + "对应的实体类";
         String cs = getClassStruct(packageName, importLib, classDes, "class", className);
         //获取实体类的内容
-        String classContent = getModelClassContent(table);
+        String classContent = getModelClassContent(table, className);
         cs = cs.replace("CLASS_CONTENT", classContent);
         modelFile.setBinaryContent(cs.getBytes(CHARSET_UTF8));
     }
@@ -125,7 +123,7 @@ public class FileGenerator {
      * @param table
      * @return
      */
-    private String getModelClassContent(Table table) {
+    private String getModelClassContent(Table table, String className) {
         String contentFields = "";
         String contentGetSetMethod = "";
         List<Column> columns = table.getColumns();
@@ -133,15 +131,10 @@ public class FileGenerator {
             String columnName = column.getName();
             String columnNameU = getGetterSetterName(columnName);
             String columnDes = "对应数据库字段" + column.getName();
-            if (column.isNullable()) {
-                columnDes += ",可以为空";
-            } else {
-                columnDes += ",不能为空";
-            }
             String columnType = column.getJavaDataType().getSimpleName();
             contentFields += modelClassContentFields.replace("COLUMN_DESCRIPTION", columnDes).replace("COLUMN_TYPE", columnType).
                     replace("COLUMN_NAME", columnName);
-            contentGetSetMethod += modelClassContentGetterSetter.replace("COLUMN_TYPE", columnType).
+            contentGetSetMethod += modelClassContentGetterSetter.replace("CLASS_NAME", className).replace("COLUMN_TYPE", columnType).
                     replace("COLUMN_NAME", columnName).replace("COLUMN_U", columnNameU);
         }
         return contentFields + contentGetSetMethod;
@@ -188,12 +181,16 @@ public class FileGenerator {
     private String getModelClassImport(Table table) {
         String improtLib = "\n";
         List<Column> columns = table.getColumns();
+        boolean hasBigDecimal = false;
+        boolean hasDate = false;
         for (Column column : columns) {
-            if (column.getJavaDataType().equals(BigDecimal.class)) {
+            if (!hasBigDecimal && column.getJavaDataType().equals(BigDecimal.class)) {
                 improtLib += "import java.math.BigDecimal;\n";
+                hasBigDecimal = true;
             }
-            if (column.getJavaDataType().equals(Date.class)) {
+            if (!hasDate && column.getJavaDataType().equals(Date.class)) {
                 improtLib += "import java.util.Date;\n";
+                hasDate = true;
             }
         }
         return improtLib;
